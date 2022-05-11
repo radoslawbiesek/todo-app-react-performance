@@ -2,9 +2,9 @@ import * as React from "react";
 
 import "./App.css";
 
-import { doImportantStuff, getInitialItems } from "./utils";
+import { doImportantStuff, getInitialItems, itemsReducer } from "./utils";
 
-const Item = ({ item: { text, id }, remove }) => {
+const Item = React.memo(({ item: { text, id }, remove }) => {
   // DO NOT TOUCH THIS CODE, IT IS NECESSARY FOR THE APP TO WORK
   doImportantStuff();
 
@@ -16,7 +16,7 @@ const Item = ({ item: { text, id }, remove }) => {
       </button>
     </li>
   );
-};
+});
 
 const Form = ({ addItem }) => {
   const [text, setText] = React.useState("");
@@ -47,15 +47,15 @@ const Form = ({ addItem }) => {
 };
 
 function App() {
-  const [items, setItems] = React.useState(getInitialItems);
+  const [items, dispatch] = React.useReducer(itemsReducer, getInitialItems());
 
   const addItem = (item) => {
-    setItems([...items, item]);
+    dispatch({ type: "ADD", payload: item });
   };
 
-  const removeItem = (id) => {
-    setItems(items.filter((item) => item.id !== id));
-  };
+  const removeItem = React.useCallback((id) => {
+    dispatch({ type: "DELETE", payload: id });
+  }, []);
 
   return (
     <div className="app">
