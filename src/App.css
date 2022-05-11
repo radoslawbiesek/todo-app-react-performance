@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Dekko&display=swap");
+
+* {
+  font-family: "Dekko", cursive;
+  line-height: 1;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  display: inline-block;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+h1 {
+  margin: 0;
+}
+
+.app {
+  background-color: #eee;
+  color: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  min-height: 100vh;
+}
+
+.card {
+  background-color: lightyellow;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14);
+}
+
+.list {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  font-size: 24px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add,
+.remove {
+  font-size: 40px;
+  margin-right: 5px;
+}
+
+.remove {
+  color: red;
+}
+
+.form {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+}
+
+.item,
+.form {
+  border-bottom: 1px solid #111111;
+}
+
+.input {
+  outline: none;
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+}
