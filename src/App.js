@@ -18,13 +18,35 @@ const Item = ({ item: { text, id }, remove }) => {
   );
 };
 
-function App() {
+const Form = ({ addItem }) => {
   const [text, setText] = React.useState("");
 
   const onTextChange = (event) => {
     setText(event.target.value);
   };
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    addItem({ text, id: Date.now() });
+    setText("");
+  };
+
+  return (
+    <form className="form" onSubmit={onSubmit}>
+      <input
+        placeholder="Type todo here..."
+        className="input"
+        value={text}
+        onChange={onTextChange}
+      />
+      <button className="add" type="submit" disabled={!text}>
+        +
+      </button>
+    </form>
+  );
+};
+
+function App() {
   const [items, setItems] = React.useState(getInitialItems);
 
   const addItem = (item) => {
@@ -33,12 +55,6 @@ function App() {
 
   const removeItem = (id) => {
     setItems(items.filter((item) => item.id !== id));
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    addItem({ text, id: Date.now() });
-    setText("");
   };
 
   return (
@@ -52,17 +68,7 @@ function App() {
           ))}
         </ul>
 
-        <form className="form" onSubmit={onSubmit}>
-          <input
-            placeholder="Type todo here..."
-            className="input"
-            value={text}
-            onChange={onTextChange}
-          />
-          <button className="add" type="submit" disabled={!text}>
-            +
-          </button>
-        </form>
+        <Form addItem={addItem} />
       </div>
     </div>
   );
