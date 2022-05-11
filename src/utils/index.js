@@ -18,3 +18,14 @@ export function getInitialItems() {
       id: index,
     }));
 }
+
+export function itemsReducer(items, action) {
+  switch (action.type) {
+    case "ADD":
+      return [...items, action.payload];
+    case "DELETE":
+      return items.filter((item) => item.id !== action.payload);
+    default:
+      return items;
+  }
+}
