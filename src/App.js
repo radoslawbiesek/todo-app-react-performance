@@ -49,6 +49,7 @@ const Form = ({ addItem }) => {
 function App() {
   const [items, setItems] = React.useState(getInitialItems());
   const [counter, setCounter] = React.useState(0);
+  const [isPending, startTransition] = React.useTransition();
 
   const addItem = (item) => {
     setItems([...items, item]);
@@ -60,7 +61,9 @@ function App() {
 
   const onClick = () => {
     setCounter((counter) => counter + 1);
-    setItems(shuffle(items));
+    startTransition(() => {
+      setItems(shuffle(items));
+    });
   };
 
   return (
@@ -68,11 +71,11 @@ function App() {
       <div className="card">
         <div className="header">
           <h1>Todo App</h1>
-          <button className="shuffle" onClick={onClick}>
+          <button className="shuffle" onClick={onClick} disabled={isPending}>
             Shuffle items ({counter})
           </button>
         </div>
-        <ul>
+        <ul className={isPending ? "pending" : ""}>
           {items.map((item) => (
             <Item key={item.id} item={item} remove={removeItem} />
           ))}
