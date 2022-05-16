@@ -4,7 +4,7 @@ import "./App.css";
 
 import { doImportantStuff, getInitialItems, itemsReducer } from "./utils";
 
-const Item = React.memo(({ item: { text, id }, remove }) => {
+const Item = ({ item: { text, id }, remove }) => {
   // DO NOT TOUCH THIS CODE, IT IS NECESSARY FOR THE APP TO WORK
   doImportantStuff();
 
@@ -16,7 +16,7 @@ const Item = React.memo(({ item: { text, id }, remove }) => {
       </button>
     </li>
   );
-});
+};
 
 const Form = ({ addItem }) => {
   const [text, setText] = React.useState("");
@@ -48,26 +48,35 @@ const Form = ({ addItem }) => {
 
 function App() {
   const [items, dispatch] = React.useReducer(itemsReducer, getInitialItems());
+  const [counter, setCounter] = React.useState(0);
 
   const addItem = (item) => {
     dispatch({ type: "ADD", payload: item });
   };
 
-  const removeItem = React.useCallback((id) => {
+  const removeItem = (id) => {
     dispatch({ type: "DELETE", payload: id });
-  }, []);
+  };
+
+  const onClick = () => {
+    setCounter((counter) => counter + 1);
+    dispatch({ type: "SHUFFLE" });
+  };
 
   return (
     <div className="app">
       <div className="card">
-        <h1>Todo App</h1>
-
-        <ul className="list">
+        <div className="header">
+          <h1>Todo App</h1>
+          <button className="shuffle" onClick={onClick}>
+            Shuffle items ({counter})
+          </button>
+        </div>
+        <ul>
           {items.map((item) => (
             <Item key={item.id} item={item} remove={removeItem} />
           ))}
         </ul>
-
         <Form addItem={addItem} />
       </div>
     </div>
