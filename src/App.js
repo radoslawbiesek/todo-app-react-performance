@@ -49,7 +49,6 @@ const Form = ({ addItem }) => {
 function App() {
   const [items, setItems] = React.useState(getInitialItems());
   const [counter, setCounter] = React.useState(0);
-  const [isPending, startTransition] = React.useTransition();
 
   const addItem = (item) => {
     setItems([...items, item]);
@@ -61,22 +60,22 @@ function App() {
 
   const onClick = () => {
     setCounter((counter) => counter + 1);
-    startTransition(() => {
-      setItems(shuffle(items));
-    });
+    setItems(shuffle(items));
   };
+
+  const deferredItems = React.useDeferredValue(items);
 
   return (
     <div className="app">
       <div className="card">
         <div className="header">
           <h1>Todo App</h1>
-          <button className="shuffle" onClick={onClick} disabled={isPending}>
+          <button className="shuffle" onClick={onClick}>
             Shuffle items ({counter})
           </button>
         </div>
-        <ul className={isPending ? "pending" : ""}>
-          {items.map((item) => (
+        <ul>
+          {deferredItems.map((item) => (
             <Item key={item.id} item={item} remove={removeItem} />
           ))}
         </ul>
