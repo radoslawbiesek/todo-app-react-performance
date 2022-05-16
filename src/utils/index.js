@@ -7,11 +7,11 @@ function sleep(milliseconds) {
 }
 
 export function doImportantStuff() {
-  sleep(50);
+  sleep(100);
 }
 
 export function getInitialItems() {
-  return Array(5)
+  return Array(10)
     .fill(null)
     .map((_, index) => ({
       text: `Todo ${index + 1}`,
