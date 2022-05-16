@@ -4,7 +4,7 @@ import "./App.css";
 
 import { doImportantStuff, getInitialItems } from "./utils";
 
-const Item = ({ item: { text, id }, remove }) => {
+const Item = React.memo(({ text, id, remove }) => {
   // DO NOT TOUCH THIS CODE, IT IS NECESSARY FOR THE APP TO WORK
   doImportantStuff();
 
@@ -16,7 +16,7 @@ const Item = ({ item: { text, id }, remove }) => {
       </button>
     </li>
   );
-};
+});
 
 const Form = ({ addItem }) => {
   const [text, setText] = React.useState("");
@@ -53,9 +53,9 @@ function App() {
     setItems([...items, item]);
   };
 
-  const removeItem = (id) => {
-    setItems(items.filter((item) => item.id !== id));
-  };
+  const removeItem = React.useCallback((id) => {
+    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  }, []);
 
   return (
     <div className="app">
@@ -64,7 +64,12 @@ function App() {
 
         <ul className="list">
           {items.map((item) => (
-            <Item key={item.id} item={item} remove={removeItem} />
+            <Item
+              key={item.id}
+              text={item.text}
+              id={item.id}
+              remove={removeItem}
+            />
           ))}
         </ul>
 
