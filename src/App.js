@@ -2,7 +2,7 @@ import * as React from "react";
 
 import "./App.css";
 
-import { doImportantStuff, getInitialItems, itemsReducer } from "./utils";
+import { doImportantStuff, getInitialItems, shuffle } from "./utils";
 
 const Item = ({ item: { text, id }, remove }) => {
   // DO NOT TOUCH THIS CODE, IT IS NECESSARY FOR THE APP TO WORK
@@ -47,20 +47,20 @@ const Form = ({ addItem }) => {
 };
 
 function App() {
-  const [items, dispatch] = React.useReducer(itemsReducer, getInitialItems());
+  const [items, setItems] = React.useState(getInitialItems());
   const [counter, setCounter] = React.useState(0);
 
   const addItem = (item) => {
-    dispatch({ type: "ADD", payload: item });
+    setItems([...items, item]);
   };
 
   const removeItem = (id) => {
-    dispatch({ type: "DELETE", payload: id });
+    setItems(items.filter((item) => item.id !== id));
   };
 
   const onClick = () => {
     setCounter((counter) => counter + 1);
-    dispatch({ type: "SHUFFLE" });
+    setItems(shuffle(items));
   };
 
   return (
